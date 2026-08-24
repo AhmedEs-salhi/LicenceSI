@@ -1,0 +1,48 @@
+--TABLE DEPARTEMENT:
+insert into departement values(10,'DIRECTION','GENEVE');
+insert into departement values(20,'RECHERCHE','DALLAS');
+insert into departement values(30,'VENTE','CHICAGO');
+insert into departement values(40,'FABRICATION','BOSTON');
+
+--TABLE EMPLOYE:
+insert into employe values(7839,'KING','PRESIDENT',NULL,'17/11/1981',5000,NULL,10);
+insert into employe values(7566,'JONES','MANAGER',7839,'02/04/1981',2975,NULL,20);
+insert into employe values(7698,'BLAKE','MANAGER',7839,'01/05/2000',2850,NULL,30);
+insert into employe values(7782,'CLARK','MANAGER',7839,'09/06/1981',2450,NULL,10);
+insert into employe values(7934,'MILLER','COMMERCIAL',7782,'23/01/1982',1300,NULL,10);
+insert into employe values(7935,'ATKIN','ANALYST',7782,'23/01/1990',1200,NULL,10);
+insert into employe values(7369,'SMITH','COMMERCIAL',7566,'17/12/2002',800,20,20);
+insert into employe values(7788,'SCOTT','ANALYST',7566,'19/04/1987',3000,NULL,20);
+insert into employe values(7876,'ADAMS','COMMERCIAL',7788,'23/05/1987',1100,NULL,20);
+insert into employe values(7902,'FORD','ANALYST',7566,'03/12/1981',3000,NULL,20);
+insert into employe values(7499,'ALLEN','INGENIEUR',7698,'20/02/1981',1600,300,30);
+insert into employe values(7521,'WARD','INGENIEUR',7698,'22/02/1999',1250,500,30);
+insert into employe values(7654,'MARTIN','INGENIEUR',7698,'28/09/2010',1250,1400,30);
+insert into employe values(7844,'TURNER','INGENIEUR',7698,'08/09/1981',1500,0,30);
+insert into employe values(7900,'JAMES','COMMERCIAL',7698,'03/12/1981',950,NULL,30);
+
+--TABLE PROJET:
+insert into projet values(1,'Alio',10);
+insert into projet values(2,'SIP1',20);
+insert into projet values(3,'VENIP',30);
+insert into projet values(4,'ABLAY',30);
+insert into projet values(5,'ASIP',10);
+insert into projet values(6,'SIP2',20);
+
+--TABLE TRAVAILLE:
+insert into travaille values(7499,1,100);
+insert into travaille values(7499,2,70);
+insert into travaille values(7521,1,30);
+insert into travaille values(7566,1,45);
+insert into travaille values(7654,1,25);
+insert into travaille values(7654,2,30);
+insert into travaille values(7654,3,70);
+insert into travaille values(7654,4,45);
+insert into travaille values(7654,6,100);
+insert into travaille values(7902,6,35);
+insert into travaille values(7902,2,75);
+insert into travaille values(7935,1,67);
+insert into travaille values(7935,2,75);
+insert into travaille values(7844,3,66);
+insert into travaille values(7844,5,33);
+insert into travaille values(7902,6,35);

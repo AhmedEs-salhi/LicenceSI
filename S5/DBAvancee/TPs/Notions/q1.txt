@@ -1,0 +1,52 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    -- Curseur pour tous les employés avec FOR UPDATE
+    CURSOR c_employes IS
+        SELECT numemp, nom, fonction, sal, dateembauche,
+               ROUND((SYSDATE - dateembauche)/365) AS anciennete
+        FROM employe
+        FOR UPDATE OF sal;  -- Permet de modifier les salaires
+    
+    v_bonus NUMBER;
+    v_nouveau_salaire NUMBER;
+    v_total_bonus NUMBER := 0;
+    v_nb_employes NUMBER := 0;
+BEGIN
+     
+    FOR emp IN c_employes LOOP
+        v_nb_employes := v_nb_employes + 1;
+        
+        IF emp.anciennete > 20 THEN
+            v_bonus := 500;
+        ELSIF emp.anciennete > 10 THEN
+            v_bonus := 300;
+        ELSIF emp.anciennete > 5 THEN
+            v_bonus := 150;
+        ELSE
+            v_bonus := 50;
+        END IF;
+        
+        v_nouveau_salaire := emp.sal + v_bonus;
+        
+        UPDATE employe 
+        SET sal = v_nouveau_salaire 
+        WHERE CURRENT OF c_employes;
+        
+        DBMS_OUTPUT.PUT_LINE(emp.nom || ' (' || emp.fonction || ')');
+        DBMS_OUTPUT.PUT_LINE('  Ancienneté: ' || emp.anciennete || ' ans');
+        DBMS_OUTPUT.PUT_LINE('  Ancien salaire: ' || emp.sal || ' €');
+        DBMS_OUTPUT.PUT_LINE('  Bonus: ' || v_bonus || ' €');
+        DBMS_OUTPUT.PUT_LINE('  Nouveau salaire: ' || v_nouveau_salaire || ' €');
+        
+        v_total_bonus := v_total_bonus + v_bonus;
+    END LOOP;
+    
+      
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        DBMS_OUTPUT.PUT_LINE('Erreur: ' || SQLERRM);
+        DBMS_OUTPUT.PUT_LINE('Les modifications ont été annulées.');
+END;
+/

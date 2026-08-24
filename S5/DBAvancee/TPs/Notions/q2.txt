@@ -1,0 +1,43 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+  
+    CURSOR c_employes_par_fonction(p_fonction employe.fonction%TYPE) IS
+        SELECT nom, sal,
+               (SELECT AVG(sal) FROM employe WHERE fonction = p_fonction) AS salaire_moyen
+        FROM employe
+        WHERE fonction = p_fonction
+        ORDER BY sal DESC;
+    
+    v_fonction employe.fonction%TYPE := '&FONCTION';
+    v_compteur NUMBER := 0;
+BEGIN
+      FOR emp_rec IN c_employes_par_fonction(v_fonction) LOOP
+        v_compteur := v_compteur + 1;
+        
+        DBMS_OUTPUT.PUT_LINE('Employé ' || v_compteur || ' : ' || emp_rec.nom);
+        DBMS_OUTPUT.PUT_LINE('  Salaire : ' || emp_rec.sal);
+        DBMS_OUTPUT.PUT_LINE('  Salaire moyen de la fonction : ' || ROUND(emp_rec.salaire_moyen, 2) );
+        
+        IF emp_rec.sal > emp_rec.salaire_moyen THEN
+            DBMS_OUTPUT.PUT_LINE('  Au-dessus de la moyenne de : ' || ROUND(emp_rec.sal - emp_rec.salaire_moyen, 2));
+        ELSIF emp_rec.sal < emp_rec.salaire_moyen THEN
+            DBMS_OUTPUT.PUT_LINE('  En-dessous de la moyenne de : ' || ROUND(emp_rec.salaire_moyen - emp_rec.sal, 2));
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('Exactement à la moyenne');
+        END IF;
+        
+        DBMS_OUTPUT.PUT_LINE('---');
+    END LOOP;
+    
+    IF v_compteur = 0 THEN
+        DBMS_OUTPUT.PUT_LINE('Aucun employé trouvé pour la fonction : ' || v_fonction);
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Total d''employés dans cette fonction : ' || v_compteur);
+    END IF;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Erreur : ' || SQLERRM);
+END;
+/

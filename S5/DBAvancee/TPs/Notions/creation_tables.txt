@@ -1,0 +1,41 @@
+-- Table DEPARTEMENT
+CREATE TABLE departement(
+  NUMDEP NUMBER(5),
+  NOMD VARCHAR(30),
+  LIEU VARCHAR(30),
+  CONSTRAINT pk_departement PRIMARY KEY(numdep)
+);
+
+-- Table EMPLOYE
+CREATE TABLE employe(
+  NUMEMP NUMBER(5),
+  NOM VARCHAR(30),
+  FONCTION VARCHAR(20),
+  NUMSUP NUMBER(5),
+  DATEEMBAUCHE DATE,
+  SAL NUMBER(5),
+  COMM NUMBER(5),
+  NUMDEP NUMBER(5),
+  CONSTRAINT pk_employe PRIMARY KEY(numemp),
+  CONSTRAINT fk_employe_dep FOREIGN KEY(numdep) REFERENCES departement(numdep),
+  CONSTRAINT fk_employe_sup FOREIGN KEY(numsup) REFERENCES employe(numemp)
+);
+
+-- Table PROJET
+CREATE TABLE projet(
+  NUMPROJ NUMBER(5),
+  NOMP VARCHAR(20),
+  NUMDEP NUMBER(5),
+  CONSTRAINT pk_projet PRIMARY KEY(numproj),
+  CONSTRAINT fk_projet_dep FOREIGN KEY(numdep) REFERENCES departement(numdep)
+);
+
+-- Table TRAVAILLE
+CREATE TABLE travaille(
+  NUMEMP NUMBER(5),
+  NUMPROJ NUMBER(5),
+  NBHEURES NUMBER(5),
+  CONSTRAINT pk_travaille PRIMARY KEY(numemp, numproj),
+  CONSTRAINT fk_travaille_emp FOREIGN KEY(numemp) REFERENCES employe(numemp),
+  CONSTRAINT fk_travaille_proj FOREIGN KEY(numproj) REFERENCES projet(numproj)
+);
